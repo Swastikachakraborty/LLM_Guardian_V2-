@@ -1,63 +1,71 @@
 import streamlit as st
 import time
 
-st.set_page_config(page_title="LLM Guardian", page_icon="🛡️", layout="centered", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="LLM Guardian", layout="centered", initial_sidebar_state="collapsed")
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .stApp { background: #050508; }
 #MainMenu, footer, header { display: none !important; }
-.block-container { padding-top: 0 !important; padding-bottom: 0 !important; max-width: 640px !important; }
+.block-container { padding-top: 0 !important; padding-bottom: 0 !important; max-width: 600px !important; }
 section[data-testid="stSidebar"] { display: none !important; }
 
-/* Full-height centering */
-.main-wrap {
+/* Page center */
+.page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem 1rem;
+    padding: 3rem 1.5rem;
 }
 
-/* Glow orb behind shield */
-.orb {
-    width: 260px; height: 260px;
-    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -60%);
-    pointer-events: none;
-    animation: pulse 4s ease-in-out infinite;
+/* Header */
+.brand {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #334155;
+    text-align: center;
+    margin-bottom: 0.6rem;
 }
-@keyframes pulse { 0%,100%{opacity:0.5;transform:translate(-50%,-60%) scale(1)} 50%{opacity:1;transform:translate(-50%,-60%) scale(1.15)} }
-
-.shield { font-size: 3.5rem; display: block; text-align: center; margin-bottom: 0.6rem; filter: drop-shadow(0 0 20px rgba(99,102,241,0.8)); animation: float 3s ease-in-out infinite; }
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-
-.title { text-align: center; font-size: 2.6rem; font-weight: 900; letter-spacing: -1.5px; color: #e2e8f0; margin-bottom: 0.2rem; }
-.sub   { text-align: center; color: #334155; font-size: 0.88rem; margin-bottom: 2rem; }
+.headline {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: #e2e8f0;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.tagline {
+    font-size: 0.88rem;
+    color: #334155;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+}
 
 /* Input */
 .stTextArea textarea {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1.5px solid rgba(255,255,255,0.07) !important;
-    border-radius: 18px !important;
-    color: #e2e8f0 !important;
-    font-size: 1rem !important;
+    background: #0a0d14 !important;
+    border: 1px solid #1e293b !important;
+    border-radius: 14px !important;
+    color: #cbd5e1 !important;
+    font-size: 0.97rem !important;
     font-family: 'Inter', sans-serif !important;
-    padding: 1.1rem 1.3rem !important;
+    padding: 1rem 1.2rem !important;
     resize: none !important;
-    line-height: 1.6 !important;
-    transition: border-color 0.3s, box-shadow 0.3s !important;
+    line-height: 1.65 !important;
+    transition: border-color 0.25s !important;
 }
 .stTextArea textarea:focus {
-    border-color: rgba(99,102,241,0.45) !important;
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.08) !important;
+    border-color: #6366f1 !important;
+    box-shadow: none !important;
 }
 .stTextArea textarea::placeholder { color: #1e293b !important; }
 .stTextArea label { display: none !important; }
@@ -65,44 +73,82 @@ section[data-testid="stSidebar"] { display: none !important; }
 /* Button */
 .stButton > button {
     width: 100% !important;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-    color: white !important; border: none !important;
-    border-radius: 14px !important; font-size: 1rem !important;
-    font-weight: 600 !important; padding: 0.85rem !important;
-    box-shadow: 0 4px 24px rgba(99,102,241,0.35) !important;
-    transition: all 0.2s !important; margin-top: 0.5rem !important;
-    letter-spacing: 0.2px !important;
+    background: #6366f1 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    padding: 0.8rem !important;
+    letter-spacing: 0.3px !important;
+    margin-top: 0.5rem !important;
+    transition: background 0.2s, transform 0.15s !important;
+    box-shadow: none !important;
 }
-.stButton > button:hover { box-shadow: 0 8px 36px rgba(99,102,241,0.55) !important; transform: translateY(-1px) !important; }
+.stButton > button:hover {
+    background: #4f46e5 !important;
+    transform: translateY(-1px) !important;
+}
 
-/* Verdict cards */
-.card {
-    border-radius: 22px; padding: 2.4rem 2rem;
-    text-align: center; margin-top: 1.5rem;
-    animation: fadeup 0.35s ease;
+/* Verdict */
+.verdict {
     width: 100%;
+    border-radius: 16px;
+    padding: 2rem 1.8rem;
+    margin-top: 1.5rem;
+    animation: up 0.3s ease;
 }
-.card-safe   { background: rgba(16,185,129,0.06); border: 1.5px solid rgba(16,185,129,0.22); box-shadow: 0 0 60px rgba(16,185,129,0.05); }
-.card-danger { background: rgba(239,68,68,0.06);  border: 1.5px solid rgba(239,68,68,0.22);  box-shadow: 0 0 60px rgba(239,68,68,0.05); }
-.card-review { background: rgba(245,158,11,0.06); border: 1.5px solid rgba(245,158,11,0.22); box-shadow: 0 0 60px rgba(245,158,11,0.05); }
-@keyframes fadeup { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.verdict-safe   { background: #051a10; border: 1px solid #064e29; }
+.verdict-danger { background: #1a0505; border: 1px solid #4e0606; }
+.verdict-review { background: #1a1205; border: 1px solid #4e3206; }
+@keyframes up { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-.v-icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
-.v-safe   { font-size: 2rem; font-weight: 900; color: #10b981; letter-spacing: -0.5px; }
-.v-danger { font-size: 2rem; font-weight: 900; color: #ef4444; letter-spacing: -0.5px; }
-.v-review { font-size: 2rem; font-weight: 900; color: #f59e0b; letter-spacing: -0.5px; }
-.v-desc   { font-size: 0.88rem; color: #475569; margin-top: 0.4rem; line-height: 1.5; }
+.v-status {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+.v-status-safe   { color: #10b981; }
+.v-status-danger { color: #ef4444; }
+.v-status-review { color: #f59e0b; }
+
+.v-title {
+    font-size: 1.9rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+.v-title-safe   { color: #e2e8f0; }
+.v-title-danger { color: #e2e8f0; }
+.v-title-review { color: #e2e8f0; }
+
+.v-desc {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.55;
+    margin-bottom: 1.2rem;
+}
 
 /* Risk bar */
-.rbar-wrap { display:flex; align-items:center; gap:0.7rem; justify-content:center; margin-top:1.2rem; }
-.rbar-track { width:130px; height:5px; background:rgba(255,255,255,0.05); border-radius:999px; overflow:hidden; }
-.rbar-safe   { height:100%; border-radius:999px; background:linear-gradient(90deg,#10b981,#34d399); }
-.rbar-danger { height:100%; border-radius:999px; background:linear-gradient(90deg,#ef4444,#f87171); }
-.rbar-review { height:100%; border-radius:999px; background:linear-gradient(90deg,#f59e0b,#fbbf24); }
-.rbar-lbl { font-size:0.72rem; color:#334155; font-weight:500; }
+.rbar-row { display:flex; align-items:center; gap:0.6rem; }
+.rbar-label { font-size:0.7rem; color:#334155; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; min-width:28px; }
+.rbar-track { flex:1; height:4px; background:#1e293b; border-radius:999px; overflow:hidden; }
+.rbar-fill-safe   { height:100%; border-radius:999px; background:#10b981; }
+.rbar-fill-danger { height:100%; border-radius:999px; background:#ef4444; }
+.rbar-fill-review { height:100%; border-radius:999px; background:#f59e0b; }
+.rbar-pct { font-size:0.78rem; font-weight:700; min-width:32px; text-align:right; }
+.rbar-pct-safe   { color:#10b981; }
+.rbar-pct-danger { color:#ef4444; }
+.rbar-pct-review { color:#f59e0b; }
+
+.footer { font-size:0.68rem; color:#1e293b; text-align:center; margin-top:2rem; letter-spacing:0.5px; }
 </style>
 """, unsafe_allow_html=True)
 
+# ── Load model ────────────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def load_guardian():
     from detector import LLMGuardian
@@ -111,24 +157,30 @@ def load_guardian():
 with st.spinner(""):
     guardian = load_guardian()
 
-# ── UI ────────────────────────────────────────────────────────────────────────
-st.markdown('<div class="orb"></div>', unsafe_allow_html=True)
-st.markdown('<span class="shield">🛡️</span>', unsafe_allow_html=True)
-st.markdown('<div class="title">LLM Guardian</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub">Is your prompt safe?</div>', unsafe_allow_html=True)
+# ── Layout ────────────────────────────────────────────────────────────────────
+st.markdown('<div class="brand">AI Security</div>', unsafe_allow_html=True)
+st.markdown('<div class="headline">LLM Guardian</div>', unsafe_allow_html=True)
+st.markdown('<div class="tagline">Detect jailbreak and manipulation attempts before they reach your AI.</div>', unsafe_allow_html=True)
 
-prompt = st.text_area("p", height=140, placeholder="Type or paste your prompt here...", label_visibility="collapsed")
-clicked = st.button("Check Prompt →")
+prompt = st.text_area("prompt", height=140,
+                       placeholder="Paste or type a prompt to inspect...",
+                       label_visibility="collapsed")
 
+clicked = st.button("Inspect Prompt")
+
+# ── Result ────────────────────────────────────────────────────────────────────
 if clicked:
     if not prompt.strip():
-        st.warning("Please enter a prompt.")
+        st.warning("Please enter a prompt first.")
     else:
         pb = st.progress(0)
+        status = st.empty()
+        status.markdown('<p style="color:#334155;font-size:0.8rem;">Scanning...</p>', unsafe_allow_html=True)
         for i in range(1, 101):
             time.sleep(0.006)
             pb.progress(i)
         pb.empty()
+        status.empty()
 
         result  = guardian.analyze(prompt.strip())
         verdict = result["verdict"]
@@ -136,24 +188,37 @@ if clicked:
         pct     = int(risk * 100)
 
         if verdict == "BLOCK":
-            card, vcls, bar = "card-danger", "v-danger", "rbar-danger"
-            icon, label, desc = "🚨", "Not Safe", "This prompt looks like a manipulation attempt. Blocked."
+            vcard, vstatus, vtitle_cls, vfill, vpct_cls = \
+                "verdict-danger", "v-status-danger", "v-title-danger", "rbar-fill-danger", "rbar-pct-danger"
+            status_txt = "Threat Detected"
+            title_txt  = "Not Safe"
+            desc_txt   = "This prompt contains patterns associated with jailbreak or manipulation attempts. It has been blocked and will not reach the model."
         elif verdict == "ALLOW":
-            card, vcls, bar = "card-safe", "v-safe", "rbar-safe"
-            icon, label, desc = "✅", "Safe", "No threats detected. This prompt is safe."
+            vcard, vstatus, vtitle_cls, vfill, vpct_cls = \
+                "verdict-safe", "v-status-safe", "v-title-safe", "rbar-fill-safe", "rbar-pct-safe"
+            status_txt = "Clear"
+            title_txt  = "Safe to Send"
+            desc_txt   = "No suspicious patterns detected. This prompt is clean and safe to forward to the AI model."
         else:
-            card, vcls, bar = "card-review", "v-review", "rbar-review"
-            icon, label, desc = "⚠️", "Suspicious", "Unusual patterns found. Treated as unsafe."
+            vcard, vstatus, vtitle_cls, vfill, vpct_cls = \
+                "verdict-review", "v-status-review", "v-title-review", "rbar-fill-review", "rbar-pct-review"
+            status_txt = "Suspicious"
+            title_txt  = "Proceed with Caution"
+            desc_txt   = "Unusual patterns detected. This prompt has been flagged and treated as unsafe out of caution."
 
         st.markdown(f"""
-        <div class="card {card}">
-            <span class="v-icon">{icon}</span>
-            <div class="{vcls}">{label}</div>
-            <div class="v-desc">{desc}</div>
-            <div class="rbar-wrap">
-                <span class="rbar-lbl">Risk</span>
-                <div class="rbar-track"><div class="{bar}" style="width:{pct}%"></div></div>
-                <span class="rbar-lbl">{pct}%</span>
+        <div class="verdict {vcard}">
+            <div class="v-status {vstatus}">{status_txt}</div>
+            <div class="v-title {vtitle_cls}">{title_txt}</div>
+            <div class="v-desc">{desc_txt}</div>
+            <div class="rbar-row">
+                <span class="rbar-label">Risk</span>
+                <div class="rbar-track">
+                    <div class="{vfill}" style="width:{pct}%"></div>
+                </div>
+                <span class="rbar-pct {vpct_cls}">{pct}%</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+st.markdown('<div class="footer">LLM Guardian V2 &nbsp;·&nbsp; 3-Phase AI Firewall</div>', unsafe_allow_html=True)
