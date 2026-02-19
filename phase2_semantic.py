@@ -11,7 +11,7 @@ class Phase2Semantic:
             model_name="all-MiniLM-L6-v2"
         )
         # EphemeralClient = pure in-memory, no filesystem writes needed
-        # Works on Streamlit Cloud with chromadb==0.4.24
+        # Works correctly with chromadb 0.5.x (Python SQLite backend)
         self.client = chromadb.EphemeralClient()
         self.collection = self.client.create_collection(
             name=COLLECTION_NAME,
