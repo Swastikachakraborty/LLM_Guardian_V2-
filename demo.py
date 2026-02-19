@@ -190,9 +190,9 @@ if clicked:
         if verdict == "BLOCK":
             vcard, vstatus, vtitle_cls, vfill, vpct_cls = \
                 "verdict-danger", "v-status-danger", "v-title-danger", "rbar-fill-danger", "rbar-pct-danger"
-            status_txt = "Threat Detected"
-            title_txt  = "Not Safe"
-            desc_txt   = "This prompt contains patterns associated with jailbreak or manipulation attempts. It has been blocked and will not reach the model."
+            status_txt = "Blocked"
+            title_txt  = "Access Denied"
+            desc_txt   = "This prompt has been identified as a threat and has been blocked. If you believe this is a mistake, please contact the administrator."
         elif verdict == "ALLOW":
             vcard, vstatus, vtitle_cls, vfill, vpct_cls = \
                 "verdict-safe", "v-status-safe", "v-title-safe", "rbar-fill-safe", "rbar-pct-safe"
@@ -202,9 +202,9 @@ if clicked:
         else:
             vcard, vstatus, vtitle_cls, vfill, vpct_cls = \
                 "verdict-review", "v-status-review", "v-title-review", "rbar-fill-review", "rbar-pct-review"
-            status_txt = "Suspicious"
-            title_txt  = "Proceed with Caution"
-            desc_txt   = "Unusual patterns detected. This prompt has been flagged and treated as unsafe out of caution."
+            status_txt = "Suspicious — Blocked"
+            title_txt  = "Access Restricted"
+            desc_txt   = "Unusual patterns detected. As a precaution, you have been blocked. If you believe this is a mistake, please contact the administrator."
 
         st.markdown(f"""
         <div class="verdict {vcard}">
