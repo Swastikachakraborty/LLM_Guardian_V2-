@@ -1,44 +1,7 @@
-# ─────────────────────────────────────────────
-#  LLM Guardian V2 — .gitignore
-# ─────────────────────────────────────────────
-
-# Python virtual environment (NEVER commit this — 46 000+ files)
-venv/
-.venv/
-env/
-ENV/
-
-# Python bytecode cache (auto-generated, not needed)
+chroma_db/
 __pycache__/
-*.py[cod]
-*$py.class
-*.pyo
-
-# ChromaDB persistent storage (generated data, not source code)
-# Re-create by running: python ingest_data.py
-chroma_db_storage/
-
-# OS / editor junk
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-
-# IDE settings
-.vscode/
-.idea/
-
-# Environment variables (keep secrets out of git)
+*.pyc
+*.pkl
+*.joblib
+feedback.csv
 .env
-.env.*
-
-# Build / dist artefacts
-dist/
-build/
-*.egg-info/
-
-# Jupyter notebooks checkpoints
-.ipynb_checkpoints/
-
-# Logs
-*.log

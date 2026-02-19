@@ -1,0 +1,157 @@
+[
+  {
+    "pattern": "act (as|like) (a |an )?(hacker|criminal|attacker|thief|cracker|black hat|malicious)",
+    "risk": 1.0,
+    "name": "Hacker Impersonation"
+  },
+  {
+    "pattern": "give (me|us).*(password|credential|secret|access key|api key|token|login)",
+    "risk": 1.0,
+    "name": "Credential Theft"
+  },
+  {
+    "pattern": "(hack|breach|compromise|crack).*(server|system|database|account|network|website)",
+    "risk": 1.0,
+    "name": "Hacking Request"
+  },
+  {
+    "pattern": "(how (to|do i)|teach me|show me|help me).*(hack|steal|phish|bypass|exploit|crack|break into)",
+    "risk": 0.9,
+    "name": "Attack Tutorial"
+  },
+  {
+    "pattern": "(pretend|act|behave|roleplay|play).*(you have no|you are|without any).*(limit|filter|rule|restriction|safety)",
+    "risk": 1.0,
+    "name": "Unrestricted Roleplay"
+  },
+  {
+    "pattern": "(steal|exfiltrate|leak|dump|extract).*(data|information|passwords?|keys?|database|user)",
+    "risk": 1.0,
+    "name": "Data Exfiltration"
+  },
+  {
+    "pattern": "ignore.*(instructions?|rules?|previous|prior|all)",
+    "risk": 1.0,
+    "name": "Direct Override"
+  },
+  {
+    "pattern": "(dan|developer|jailbreak|god).*(mode|activate|enabled|on)",
+    "risk": 1.0,
+    "name": "Jailbreak Role"
+  },
+  {
+    "pattern": "(reveal|show|print|output|display|tell me).*(system prompt|rules|instructions|training)",
+    "risk": 1.0,
+    "name": "Prompt Leak"
+  },
+  {
+    "pattern": "forget.*(previous|prior|all|your).*(instructions?|rules?|tasks?|training)",
+    "risk": 0.9,
+    "name": "Forget Rules"
+  },
+  {
+    "pattern": "bypass.*(safety|filter|restriction|guard|content|policy)",
+    "risk": 0.9,
+    "name": "Bypass Safety"
+  },
+  {
+    "pattern": "do anything now|act as if|pretend you (are|have no)|you are now|from now on you",
+    "risk": 0.9,
+    "name": "Role Hijack"
+  },
+  {
+    "pattern": "(step.by.step|tutorial|guide|how to).*(hack|malware|exploit|inject|phish)",
+    "risk": 0.8,
+    "name": "Hack Tutorial"
+  },
+  {
+    "pattern": "generate.*(malicious|virus|worm|ransomware|exploit|payload|backdoor)",
+    "risk": 1.0,
+    "name": "Malware Request"
+  },
+  {
+    "pattern": "drop.*(table|database|all)|delete.*(all|everything|database)",
+    "risk": 0.9,
+    "name": "Data Destruction"
+  },
+  {
+    "pattern": "your new (instructions?|rules?|task) (is|are|will be)",
+    "risk": 0.9,
+    "name": "Instruction Override"
+  },
+  {
+    "pattern": "i (give|grant) you permission to ignore",
+    "risk": 0.9,
+    "name": "Permission Grant"
+  },
+  {
+    "pattern": "example:.*(user|human):.*(ai|assistant|bot):",
+    "risk": 0.8,
+    "name": "Few-Shot Hijack"
+  },
+  {
+    "pattern": "(the document|context|article|text) (says?|tells?|instructs?).*(ignore|forget|bypass)",
+    "risk": 0.8,
+    "name": "Indirect Injection"
+  },
+  {
+    "pattern": "अनदेखा करो.*हिदायतें|पिछली.*निर्देश.*भूल जाओ|सभी नियम.*भूल जाओ",
+    "risk": 0.9,
+    "name": "Hindi Override"
+  },
+  {
+    "pattern": "ignora (las|los|todas|todos).*(instrucciones?|reglas?)|olvida (todo|las instrucciones)",
+    "risk": 0.9,
+    "name": "Spanish Override"
+  },
+  {
+    "pattern": "ignorez (les|toutes les).*(instructions?|règles?)|oubliez tout",
+    "risk": 0.9,
+    "name": "French Override"
+  },
+  {
+    "pattern": "ignoriere (alle|deine).*(anweisungen?|regeln?)|vergiss (alle|deine)",
+    "risk": 0.9,
+    "name": "German Override"
+  },
+  {
+    "pattern": "[a-z][ \\._\\-][a-z][ \\._\\-][a-z][ \\._\\-][a-z][ \\._\\-][a-z]",
+    "risk": 0.7,
+    "name": "Token Smuggling"
+  },
+  {
+    "pattern": "override (your|all|the).*(safety|filter|instruction|rule|policy)",
+    "risk": 0.9,
+    "name": "Override Command"
+  },
+  {
+    "pattern": "disregard (your|all|previous).*(instruction|rule|training|guideline)",
+    "risk": 0.9,
+    "name": "Disregard Command"
+  },
+  {
+    "pattern": "without (any |your )?(restriction|filter|limit|safety|guideline)",
+    "risk": 0.8,
+    "name": "Unrestricted Request"
+  },
+  {
+    "pattern": "as (an? )?(unrestricted|unfiltered|uncensored|evil|bad|rogue) (ai|bot|assistant|model)",
+    "risk": 1.0,
+    "name": "Evil AI Persona"
+  },
+  {
+    "pattern": "respond (only|just) (with|by|as)",
+    "risk": 0.6,
+    "name": "Response Constraint"
+  },
+  {
+    "pattern": "your (true|real|actual|original) (self|purpose|goal|instructions?)",
+    "risk": 0.8,
+    "name": "True Self Attack"
+  },
+  {
+    "pattern": "sudo|root access|admin mode|superuser|privileged mode",
+    "risk": 0.8,
+    "name": "Privilege Escalation"
+  }
+]
